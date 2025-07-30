@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dt0sn83q3qw1b"]
+[gd_scene load_steps=14 format=3 uid="uid://dt0sn83q3qw1b"]
 
 [ext_resource type="PackedScene" uid="uid://dvu5qvc2navpw" path="res://scenes/train.tscn" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://cjn6nuf30xdkh" path="res://world.gd" id="1_fj7yv"]
 [ext_resource type="PackedScene" uid="uid://dgvyta4yftf8q" path="res://scenes/delivery_spot.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://dk5j88gdto58j" path="res://scenes/switch.tscn" id="4_aqk2v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fj7yv"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -19,12 +20,20 @@ glow_enabled = true
 
 [sub_resource type="Curve3D" id="Curve3D_f3sb7"]
 closed = true
-bake_interval = 12.0
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.986, 0, 14.036, 0, 0, 0, 0, 0, 0, -5.145, 0, 26.77, 0, 0, 0, 0, 0, 0, -16.253, 0, 37.942, 0, 0, 0, 0, 0, 0, -31.369, 0, 43.363, 0, 0, 0, 0, 0, 0, -47.078, 0, 44.996, 0, 0, 0, 0, 0, 0, -54.868, 0, 40.354, 0, 0, 0, 0, 0, 0, -59.539, 0, 28.633, 0, 0, 0, 0, 0, 0, -59.537, 0, 16.74, 0, 0, 0, 0, 0, 0, -42.3, 0, 6.281, 0, 0, 0, 0, 0, 0, -24.719, 0, 1.057, 0, 0, 0, 0, 0, 0, -9.229, 0, -1.678),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.986, 0, 14.036, 0, 0, 0, 0, 0, 0, -5.145, 0, 26.77, 0, 0, 0, 0, 0, 0, -16, 0, 38, 0, 0, 0, 0, 0, 0, -31.369, 0, 43.363, 0, 0, 0, 0, 0, 0, -47.078, 0, 44.996, 0, 0, 0, 0, 0, 0, -54.868, 0, 40.354, 0, 0, 0, 0, 0, 0, -59.539, 0, 28.633, 0, 0, 0, 0, 0, 0, -59, 0, 17, 0, 0, 0, 0, 0, 0, -42.3, 0, 6.281, 0, 0, 0, 0, 0, 0, -24.719, 0, 1.057, 0, 0, 0, 0, 0, 0, -9.229, 0, -1.678),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 12
+
+[sub_resource type="Curve3D" id="Curve3D_tlwt5"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5.566, 0, 17.058, 0, 0, 0, 0, 0, 0, -5.722, 0, 35.399, 0, 0, 0, 0, 0, 0, -31.925, 0, 46.529, 0, 0, 0, 0, 0, 0, -44.403, 0, 27.353, 0, 0, 0, 0, 0, 0, -75.283, 0, 29.752, 0, 0, 0, 0, 0, 0, -88.987, 0, 19.729, 0, 0, 0, 0, 0, 0, -81.047, 0, -1.88, 0, 0, 0, 0, 0, 0, -58.333, 0, -20.484, 0, 0, 0, 0, 0, 0, -43.006, 0, -21.0037),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_aqk2v"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_tlwt5"]
 
@@ -35,7 +44,6 @@ albedo_color = Color(0.402525, 0.488344, 0.108001, 1)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_fj7yv")
-train_speed = 25.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_aqk2v")
@@ -44,28 +52,63 @@ environment = SubResource("Environment_aqk2v")
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Track" type="Path3D" parent="."]
+[node name="Train" parent="." node_paths=PackedStringArray("current_track") instance=ExtResource("1_f3sb7")]
+transform = Transform3D(-0.990128, 0, -0.140097, 0, 1, 0, 0.140097, 0, -0.990128, -0.245799, 0, -0.8512)
+speed = 50.0
+current_track = NodePath("../Tracks/Track")
+
+[node name="Tracks" type="Node3D" parent="."]
+
+[node name="Track" type="Path3D" parent="Tracks"]
 curve = SubResource("Curve3D_f3sb7")
 
-[node name="PathFollow3D" type="PathFollow3D" parent="Track"]
+[node name="PathFollow3D" type="PathFollow3D" parent="Tracks/Track"]
 transform = Transform3D(-0.990128, 0, -0.140097, 0, 1, 0, 0.140097, 0, -0.990128, 0, 0, 0)
 
-[node name="Train" parent="Track/PathFollow3D" instance=ExtResource("1_f3sb7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124125, 0, 0.87725)
+[node name="Track2" type="Path3D" parent="Tracks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 38)
+curve = SubResource("Curve3D_tlwt5")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Tracks/Track2"]
+transform = Transform3D(-0.95067, 0, -0.310202, 0, 1, 0, 0.310202, 0, -0.95067, 0, 0, 0)
+loop = false
+
+[node name="Switches" type="Node3D" parent="."]
+
+[node name="Switch" parent="Switches" node_paths=PackedStringArray("turnout") instance=ExtResource("4_aqk2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 38)
+turnout = NodePath("../../Tracks/Track2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Switches/Switch"]
+mesh = SubResource("SphereMesh_aqk2v")
+
+[node name="Switch2" parent="Switches" node_paths=PackedStringArray("turnout") instance=ExtResource("4_aqk2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.0044, 0, 17.0006)
+turnout = NodePath("../../Tracks/Track")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Switches/Switch2"]
+mesh = SubResource("SphereMesh_aqk2v")
 
 [node name="Market" type="MeshInstance3D" parent="."]
 transform = Transform3D(7.059, 0, 0, 0, 6, 0, 0, 0, 11.264, 9.01458, 3, 7.97298)
 mesh = SubResource("BoxMesh_tlwt5")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 6.18172e-08, -6.18172e-08, 0, 0.707107, 0.707107, 8.74228e-08, 0.707107, -0.707107, -31.1193, 34.1183, -14.007)
+transform = Transform3D(-1, 6.18173e-08, -6.18173e-08, 0, 0.707107, 0.707107, 8.74228e-08, 0.707107, -0.707107, -28.8407, 34.1183, 16.9229)
 projection = 1
-size = 59.321
+size = 95.928
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Ground" type="MeshInstance3D" parent="."]
 transform = Transform3D(84.8097, 0, 0, 0, 1, 0, 0, 0, 75.439, -28.8089, 0, 28.8877)
 mesh = SubResource("PlaneMesh_fj7yv")
 surface_material_override/0 = SubResource("StandardMaterial3D_tlwt5")
 
 [node name="DeliverySpot" parent="." instance=ExtResource("3_tlwt5")]
 transform = Transform3D(-0.995671, 0, -0.092944, 0, 1, 0, 0.092944, 0, -0.995671, -41.0724, 0, 46.1857)
+
+[node name="DeliverySpot2" parent="." instance=ExtResource("3_tlwt5")]
+transform = Transform3D(-0.916635, 0, -0.399725, 0, 1, 0, 0.399725, 0, -0.916635, -32.1943, 9.53674e-07, 80.4649)
+reward = 20.0
+
+[node name="DeliverySpot3" parent="." instance=ExtResource("3_tlwt5")]
+transform = Transform3D(-0.997749, 0, -0.0670574, 0, 1, 0, 0.0670574, 0, -0.997749, -76.7443, 9.53674e-07, 68.929)

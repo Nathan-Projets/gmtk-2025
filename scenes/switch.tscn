@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk5j88gdto58j"]
+
+[ext_resource type="Script" uid="uid://c5ov4iucfhwlq" path="res://scenes/switch.gd" id="1_1i7pn"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kxpdx"]
+
+[node name="Switch" type="Area3D"]
+monitorable = false
+script = ExtResource("1_1i7pn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_kxpdx")
+
+[connection signal="area_entered" from="." to="." method="_on_train_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
