@@ -1,28 +1,38 @@
 class_name Switch extends Area3D
 
-@export var condition = null
+const Train = preload("res://scenes/train.gd")
+
+@export var source: Train.Stats = Train.Stats.SPEED
+@export var comparator: Comparator = Comparator.EQUAL
+@export var target_value: Variant = 0.0
 @export var turnout: Path3D = null
+@export var no_comparison: bool = false
 
-var used = false
+enum Comparator {
+	EQUAL,
+	NOT_EQUAL,
+	GREATER,
+	GREATER_EQUAL,
+	LESS,
+	LESS_EQUAL
+}
 
-func _on_train_entered(area: Area3D) -> void:
-	if used:
-		return
-		
-	var train = area.owner
-	if train is not Train or turnout == null:
-		return
-	
-	if condition == null:
-		train.changeTrack(turnout)
-	else:
-		print("should check the switch on train")
-		
-	used = true
+func evaluate(stat: Variant) -> bool:
+	match comparator:
+		Comparator.EQUAL:
+			return stat == target_value
+		Comparator.NOT_EQUAL:
+			return stat != target_value
+		Comparator.GREATER:
+			return stat > target_value
+		Comparator.GREATER_EQUAL:
+			return stat >= target_value
+		Comparator.LESS:
+			return stat < target_value
+		Comparator.LESS_EQUAL:
+			return stat <= target_value
+		_:
+			return false
 
-
-func _on_area_exited(area: Area3D) -> void:
-	if not used:
-		return
-		
-	used = false
+func get_source() -> Train.Stats:
+	return source

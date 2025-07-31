@@ -54,7 +54,6 @@ shadow_enabled = true
 
 [node name="Train" parent="." node_paths=PackedStringArray("current_track") instance=ExtResource("1_f3sb7")]
 transform = Transform3D(-0.990128, 0, -0.140097, 0, 1, 0, 0.140097, 0, -0.990128, -0.245799, 0, -0.8512)
-speed = 50.0
 current_track = NodePath("../Tracks/Track")
 
 [node name="Tracks" type="Node3D" parent="."]
@@ -77,6 +76,8 @@ loop = false
 
 [node name="Switch" parent="Switches" node_paths=PackedStringArray("turnout") instance=ExtResource("4_aqk2v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 38)
+comparator = 3
+target_value = 20.0
 turnout = NodePath("../../Tracks/Track2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Switches/Switch"]
@@ -85,6 +86,7 @@ mesh = SubResource("SphereMesh_aqk2v")
 [node name="Switch2" parent="Switches" node_paths=PackedStringArray("turnout") instance=ExtResource("4_aqk2v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.0044, 0, 17.0006)
 turnout = NodePath("../../Tracks/Track")
+no_comparison = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Switches/Switch2"]
 mesh = SubResource("SphereMesh_aqk2v")
