@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvu5qvc2navpw"]
+[gd_scene load_steps=5 format=3 uid="uid://dvu5qvc2navpw"]
 
 [ext_resource type="Script" uid="uid://b52rpa0c4mg4u" path="res://scenes/train.gd" id="1_68jl8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_f48oq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68jl8"]
+albedo_color = Color(0.645395, 0.459276, 0.23799, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f48oq"]
 size = Vector3(1.2, 1.5, 4)
@@ -11,8 +14,9 @@ size = Vector3(1.2, 1.5, 4)
 script = ExtResource("1_68jl8")
 
 [node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.2, 0, 0, 0, 1.5, 0, 0, 0, 4, 0, 0.75, 0)
+transform = Transform3D(4.8, 0, 0, 0, 6, 0, 0, 0, 16, 0, 3, 0)
 mesh = SubResource("BoxMesh_f48oq")
+surface_material_override/0 = SubResource("StandardMaterial3D_68jl8")
 
 [node name="Area3D" type="Area3D" parent="."]
 

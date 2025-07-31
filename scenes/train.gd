@@ -5,16 +5,21 @@ var track_follow: PathFollow3D = null
 
 enum Stats {
 	SPEED, 
-	TORQUE
+	WEIGHT,
+	DEFENCE,
 }
 
 @export var stats = {
-	"SPEED": 20.0,
-	"TORQUE": 10.0,
+	"SPEED": 200.0,
+	"WEIGHT": 1000.0,
+	"DEFENCE": 100.0,
 }
 
 func _ready() -> void:
-	track_follow = current_track.get_child(0)
+	for child in current_track.get_children():
+		if child is PathFollow3D:
+			track_follow = child
+			break
 	global_transform = track_follow.global_transform
 
 func _process(delta: float) -> void:
@@ -23,8 +28,8 @@ func _process(delta: float) -> void:
 		track_follow.progress += stats[key_string] * delta
 		global_transform = track_follow.global_transform
 
-func get_stat(name: Stats) -> Variant:
-	var key_string = Stats.keys()[name]
+func get_stat(id: Stats) -> Variant:
+	var key_string = Stats.keys()[id]
 	return stats.get(key_string)
 
 func change_track(track: Path3D) -> void:
@@ -34,7 +39,10 @@ func change_track(track: Path3D) -> void:
 	
 	# for now there is only a PathFollow3D in the current_track,
 	# so no need to search for it but careful in the future
-	track_follow = current_track.get_child(0)
+	for child in current_track.get_children():
+		if child is PathFollow3D:
+			track_follow = child
+			break
 	track_follow.progress = closest_offset
 	global_transform = track_follow.global_transform
 

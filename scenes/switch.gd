@@ -1,7 +1,5 @@
 class_name Switch extends Area3D
 
-const Train = preload("res://scenes/train.gd")
-
 @export var source: Train.Stats = Train.Stats.SPEED
 @export var comparator: Comparator = Comparator.EQUAL
 @export var target_value: Variant = 0.0

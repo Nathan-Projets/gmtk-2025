@@ -1,0 +1,74 @@
+[gd_scene load_steps=11 format=3 uid="uid://cr8qotc4rn50p"]
+
+[ext_resource type="PackedScene" uid="uid://ijowhrbicyp" path="res://scenes/map.tscn" id="1_wdj6m"]
+[ext_resource type="PackedScene" uid="uid://chwmmha3vnd68" path="res://scenes/track.tscn" id="2_wdj6m"]
+[ext_resource type="PackedScene" uid="uid://dvu5qvc2navpw" path="res://scenes/train.tscn" id="3_l8qe7"]
+[ext_resource type="Script" uid="uid://b77s3yobngmtj" path="res://levels/camera.gd" id="5_ifaiv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l8qe7"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_m1504"]
+sky_material = SubResource("ProceduralSkyMaterial_l8qe7")
+
+[sub_resource type="Environment" id="Environment_ifaiv"]
+background_mode = 2
+sky = SubResource("Sky_m1504")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wdj6m"]
+albedo_color = Color(0.333835, 0.725294, 0.906747, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_l8qe7"]
+material = SubResource("StandardMaterial3D_wdj6m")
+
+[sub_resource type="Curve3D" id="Curve3D_m1504"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.02704, -1.51099, -6.48517, 17.135, 2.009, -3.055, -17.1353, -2.00913, 3.05481, -96.9958, 1.96279, 7.63702, 8.025, 2.44, 2.513, 0, 2.58, 0, -151.829, -2.07141, -6.23468, 13.878, 2.723, 11.579, -8.583, 2.662, -11.579, -226.878, -2.562, -79.0263, 6.843, 2.403, 14.113, -3.443, -1.363, -14.113, -281.277, 3.65172, -177.471, -0.286, 0.335, 4.738, 11.181, 3.08, -9.168, -277.981, 3.77237, -279.363, 0, 0, 0, 0, 0, 0, -181.937, 2.64031, -401.634, 0, 0, 0, 0, 0, 0, -50.2095, -3.06622, -419.456, 0, 0, 0, 0, 0, 0, -18.3483, -2.97852, -444.268, 0, 0, 0, 0, 0, 0, -19.8467, -2.91752, -461.601, 0, 0, 0, 0, 0, 0, -131.099, -1.65717, -462.093, 0, 0, 0, 0, 0, 0, -196.512, 3.47968, -442.652, 0, 0, 0, 0, 0, 0, -318.303, 4.81818, -309.884, 0, 0, 0, 0, 0, 0, -353.493, 3.91827, -132.214, 0, 0, 0, 0, 0, 0, -262.813, 3.20544, 2.40546, 0, 0, 0, 0, 0, 0, -184.694, 3.02012, 34.2538, 0, 0, 0, 0, 0, 0, -102.555, 2.50779, 38.1819, 0, 0, 0, 0, 0, 0, -16.4863, 1.9586, 34.4174, 0, 0, 0, 0, 0, 0, 40.3533, -2.55813, 21.8683, 0, 0, 0, 0, 0, 0, 47.4632, -2.58363, -3.46332, 0, 0, 0, 0, 0, 0, 28.6285, -3.21053, -21.2235),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 21
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ifaiv")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="map" parent="." instance=ExtResource("1_wdj6m")]
+transform = Transform3D(0.00397939, 0, -0.999992, 0, 1, 0, 0.999992, 0, 0.00397939, 979.097, 14.2106, -239.925)
+
+[node name="water" type="MeshInstance3D" parent="."]
+transform = Transform3D(2000, 0, 0, 0, 1, 0, 0, 0, 2000, 0, 64.1519, 0)
+mesh = SubResource("PlaneMesh_l8qe7")
+metadata/_edit_lock_ = true
+
+[node name="tracks" type="Node3D" parent="."]
+
+[node name="Track" parent="tracks" instance=ExtResource("2_wdj6m")]
+transform = Transform3D(-0.0861299, 0, -0.996284, 0, 1, 0, 0.996284, 0, -0.0861299, -623.433, 75.8294, 633.102)
+curve = SubResource("Curve3D_m1504")
+
+[node name="Train" parent="." node_paths=PackedStringArray("current_track") instance=ExtResource("3_l8qe7")]
+transform = Transform3D(0.998306, 0, 0.0581739, 0, 1, 0, -0.0581739, 0, 0.998306, -620.08, 77.9914, 573.135)
+current_track = NodePath("../tracks/Track")
+stats = {
+"SPEED": 100.0,
+"TORQUE": 10.0
+}
+
+[node name="Anchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -394.57, -3.05176e-05, 509.721)
+script = ExtResource("5_ifaiv")
+
+[node name="Camera3D" type="Camera3D" parent="Anchor"]
+transform = Transform3D(0.954589, -0.210665, 0.210665, 0, 0.707107, 0.707107, -0.297925, -0.674997, 0.674997, 75.0652, 298.885, 290.84)
+projection = 1
+current = true
+size = 352.435

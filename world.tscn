@@ -19,9 +19,8 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="Curve3D" id="Curve3D_f3sb7"]
-closed = true
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.986, 0, 14.036, 0, 0, 0, 0, 0, 0, -5.145, 0, 26.77, 0, 0, 0, 0, 0, 0, -16, 0, 38, 0, 0, 0, 0, 0, 0, -31.369, 0, 43.363, 0, 0, 0, 0, 0, 0, -47.078, 0, 44.996, 0, 0, 0, 0, 0, 0, -54.868, 0, 40.354, 0, 0, 0, 0, 0, 0, -59.539, 0, 28.633, 0, 0, 0, 0, 0, 0, -59, 0, 17, 0, 0, 0, 0, 0, 0, -42.3, 0, 6.281, 0, 0, 0, 0, 0, 0, -24.719, 0, 1.057, 0, 0, 0, 0, 0, 0, -9.229, 0, -1.678),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.986, 0, 14.036, 0, 0, 0, 0, 0, 0, -5.145, 0, 26.77, 0, 0, 0, 0, 0, 0, -16, 0, 38, 0, 0, 0, 0, 0, 0, -31.369, 0, 43.363, 0, 0, 0, 0, 0, 0, -47.078, 0, 44.996, 0, 0, 0, 0, 0, 0, -54.868, 0, 40.354, 0, 0, 0, 0, 0, 0, -59.539, 0, 28.633, 0, 0, 0, 0, 0, 0, -59, 0, 17, 0, 0, 0, 0, 0, 0, -42.3, 0, 6.281, 0, 0, 0, 0, 0, 0, -24.719, 0, 1.057, 0, 0, 0, 0, 0, 0, -6.70573, 0, -3.9973),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 12
@@ -40,7 +39,7 @@ point_count = 10
 [sub_resource type="PlaneMesh" id="PlaneMesh_fj7yv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlwt5"]
-albedo_color = Color(0.402525, 0.488344, 0.108001, 1)
+albedo_color = Color(0.243126, 0.161829, 0.052036, 1)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_fj7yv")
@@ -51,9 +50,11 @@ environment = SubResource("Environment_aqk2v")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
+metadata/_edit_lock_ = true
 
 [node name="Train" parent="." node_paths=PackedStringArray("current_track") instance=ExtResource("1_f3sb7")]
 transform = Transform3D(-0.990128, 0, -0.140097, 0, 1, 0, 0.140097, 0, -0.990128, -0.245799, 0, -0.8512)
+visible = false
 current_track = NodePath("../Tracks/Track")
 
 [node name="Tracks" type="Node3D" parent="."]
@@ -62,7 +63,35 @@ current_track = NodePath("../Tracks/Track")
 curve = SubResource("Curve3D_f3sb7")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Tracks/Track"]
-transform = Transform3D(-0.990128, 0, -0.140097, 0, 1, 0, 0.140097, 0, -0.990128, 0, 0, 0)
+transform = Transform3D(-0.990126, 0, -0.140096, 0, 1, 0, 0.140096, 0, -0.990126, 0, 0, 0)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Tracks/Track"]
+polygon = PackedVector2Array(-0.65, 0, -0.65, 0.1, -0.6, 0.1, -0.6, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Tracks/Track"]
+polygon = PackedVector2Array(0.525, 0, 0.525, 0.1, 0.575, 0.1, 0.575, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
 
 [node name="Track2" type="Path3D" parent="Tracks"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 38)
