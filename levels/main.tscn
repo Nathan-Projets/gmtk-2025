@@ -1,10 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://cr8qotc4rn50p"]
+[gd_scene load_steps=16 format=3 uid="uid://cr8qotc4rn50p"]
 
 [ext_resource type="PackedScene" uid="uid://ijowhrbicyp" path="res://scenes/map.tscn" id="1_wdj6m"]
 [ext_resource type="PackedScene" uid="uid://chwmmha3vnd68" path="res://scenes/track.tscn" id="2_wdj6m"]
 [ext_resource type="PackedScene" uid="uid://dk5j88gdto58j" path="res://scenes/switch.tscn" id="3_ifaiv"]
 [ext_resource type="PackedScene" uid="uid://dvu5qvc2navpw" path="res://scenes/train.tscn" id="3_l8qe7"]
 [ext_resource type="Script" uid="uid://b77s3yobngmtj" path="res://levels/camera.gd" id="5_ifaiv"]
+[ext_resource type="PackedScene" uid="uid://dgvyta4yftf8q" path="res://scenes/delivery_spot.tscn" id="6_5k4jt"]
+[ext_resource type="Script" uid="uid://jdmj0a1setkt" path="res://levels/system.gd" id="7_qy63d"]
+[ext_resource type="PackedScene" uid="uid://c7n3k800t46i4" path="res://ui/main_screen.tscn" id="8_6et1j"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l8qe7"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -42,20 +45,65 @@ point_count = 18
 
 [node name="Main" type="Node3D"]
 
+[node name="AnchorCamera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -394.57, -3.05176e-05, 509.721)
+script = ExtResource("5_ifaiv")
+
+[node name="Camera3D" type="Camera3D" parent="AnchorCamera"]
+transform = Transform3D(0.954589, -0.210665, 0.210665, 0, 0.707107, 0.707107, -0.297925, -0.674997, 0.674997, 75.0652, 298.885, 290.84)
+projection = 1
+current = true
+size = 352.435
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ifaiv")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_color = Color(1, 0.896657, 0.858256, 1)
 shadow_enabled = true
+directional_shadow_max_distance = 360.0
 
 [node name="map" parent="." instance=ExtResource("1_wdj6m")]
 transform = Transform3D(0.00397939, 0, -0.999992, 0, 1, 0, 0.999992, 0, 0.00397939, 979.097, 14.2106, -239.925)
+metadata/_edit_lock_ = true
 
 [node name="water" type="MeshInstance3D" parent="."]
 transform = Transform3D(2000, 0, 0, 0, 1, 0, 0, 0, 2000, 0, 64.1519, 0)
 mesh = SubResource("PlaneMesh_l8qe7")
 metadata/_edit_lock_ = true
+
+[node name="switches" type="Node3D" parent="."]
+
+[node name="Switch" parent="switches" node_paths=PackedStringArray("turnout") instance=ExtResource("3_ifaiv")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -165.436, 79.17, 475.745)
+monitoring = false
+comparator = 3
+turnout = NodePath("../../tracks/Track2")
+no_comparison = true
+
+[node name="Switch2" parent="switches" node_paths=PackedStringArray("turnout") instance=ExtResource("3_ifaiv")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -459.758, 79.2481, 290.762)
+monitoring = false
+turnout = NodePath("../../tracks/Track")
+no_comparison = true
+
+[node name="deliveries" type="Node3D" parent="."]
+
+[node name="DeliverySpot" parent="deliveries" instance=ExtResource("6_5k4jt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.68072, 72.1519, 131.453)
+reward = 150.0
+time_target_ms = 4900.0
+
+[node name="DeliverySpot2" parent="deliveries" instance=ExtResource("6_5k4jt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -174.393, 72.3471, 616.845)
+reward = 100.0
+time_target_ms = 4500.0
+
+[node name="DeliverySpot3" parent="deliveries" instance=ExtResource("6_5k4jt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -632.439, 76.7403, 658.689)
+reward = 300.0
+time_target_ms = 10000.0
 
 [node name="tracks" type="Node3D" parent="."]
 
@@ -69,27 +117,18 @@ curve = SubResource("Curve3D_ifaiv")
 
 [node name="Train" parent="." node_paths=PackedStringArray("current_track") instance=ExtResource("3_l8qe7")]
 transform = Transform3D(0.998306, 0, 0.0581739, 0, 1, 0, -0.0581739, 0, 0.998306, -620.08, 77.9914, 573.135)
-current_track = NodePath("../tracks/Track2")
+current_track = NodePath("../tracks/Track")
+stats = {
+"DEFENCE": 100.0,
+"SPEED": 150.0,
+"WEIGHT": 1000.0
+}
 
-[node name="Anchor" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -394.57, -3.05176e-05, 509.721)
-script = ExtResource("5_ifaiv")
+[node name="System" type="Node" parent="."]
+script = ExtResource("7_qy63d")
 
-[node name="Camera3D" type="Camera3D" parent="Anchor"]
-transform = Transform3D(0.954589, -0.210665, 0.210665, 0, 0.707107, 0.707107, -0.297925, -0.674997, 0.674997, 75.0652, 298.885, 290.84)
-projection = 1
-current = true
-size = 352.435
+[node name="MainScreen" parent="." node_paths=PackedStringArray("system") instance=ExtResource("8_6et1j")]
+system = NodePath("../System")
 
-[node name="Switch" parent="." node_paths=PackedStringArray("turnout") instance=ExtResource("3_ifaiv")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -165.436, 79.17, 475.745)
-monitoring = false
-comparator = 3
-turnout = NodePath("../tracks/Track2")
-no_comparison = true
-
-[node name="Switch2" parent="." node_paths=PackedStringArray("turnout") instance=ExtResource("3_ifaiv")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -459.758, 79.2481, 290.762)
-monitoring = false
-turnout = NodePath("../tracks/Track")
-no_comparison = true
+[editable path="deliveries/DeliverySpot"]
+[editable path="deliveries/DeliverySpot2"]

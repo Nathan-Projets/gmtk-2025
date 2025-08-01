@@ -16,10 +16,7 @@ enum Comparator {
 }
 
 func evaluate(stat: float) -> bool:
-	print("evaluate for stat:", stat)
-	print("target_value is:", target_value)
 	if no_comparison:
-		print("no comparison to do")
 		return true
 	match comparator:
 		Comparator.EQUAL:
@@ -29,7 +26,6 @@ func evaluate(stat: float) -> bool:
 		Comparator.GREATER:
 			return stat > target_value
 		Comparator.GREATER_EQUAL:
-			print("GREATER_EQUAL:", stat >= target_value)
 			return stat >= target_value
 		Comparator.LESS:
 			return stat < target_value

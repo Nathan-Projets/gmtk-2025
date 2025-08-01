@@ -14,3 +14,11 @@ config/name="GMTK25"
 run/main_scene="uid://dt0sn83q3qw1b"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Messenger="*res://Messenger.gd"
+
+[global_group]
+
+DeliverySpots=""

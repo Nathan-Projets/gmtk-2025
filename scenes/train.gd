@@ -3,6 +3,14 @@ class_name Train extends Node3D
 @export var current_track: Path3D = null
 var track_follow: PathFollow3D = null
 
+@onready var last_delivery_time: int = Time.get_ticks_msec()
+@onready var cargo_integrity: float = 100.0
+@onready var cargo_condition: float = 100.0
+
+@onready var time_score = 1.0
+@onready var decision_score = 1.0
+@onready var condition_score = 1.0
+
 enum Stats {
 	SPEED, 
 	WEIGHT,
@@ -16,6 +24,8 @@ enum Stats {
 }
 
 func _ready() -> void:
+	randomize()
+	
 	for child in current_track.get_children():
 		if child is PathFollow3D:
 			track_follow = child
@@ -52,4 +62,21 @@ func _on_area_3d_area_entered(area: Area3D) -> void:
 	var stat = get_stat(switch.get_source())
 	if stat != null and switch.evaluate(stat):
 		change_track(switch.turnout)
+
+func deliver(reward, time_target):
+	var now = Time.get_ticks_msec()
+	var time_spent_to_deliver = now - last_delivery_time
 	
+	if time_spent_to_deliver <= time_target:
+		time_score = 1.0
+	else:
+		time_score =  max(0, 1.0 - ((time_spent_to_deliver - time_target) / time_target))
+
+	condition_score = cargo_condition / cargo_integrity
+	
+	var random_score = randf_range(0.0, 0.3)
+	var quality_score = (time_score + condition_score + decision_score) / 3 + random_score
+	var money = floori(reward * quality_score)
+	
+	last_delivery_time = now
+	Messenger.delivery_done.emit(money)
