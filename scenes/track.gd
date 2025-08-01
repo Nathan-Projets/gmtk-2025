@@ -1,10 +1,12 @@
 @tool
-extends Path3D
+class_name Track extends Path3D
 
 @export var distance_between_planks = 1.0:
 	set(value):
 		distance_between_planks = value
 		is_dirty = true
+
+@onready var path_follow_3d: PathFollow3D = $PathFollow3D
 
 var is_dirty = false
 
@@ -38,3 +40,6 @@ func _update_multimesh():
 
 func _on_curve_changed() -> void:
 	is_dirty = true
+
+func get_path_follow() -> PathFollow3D:
+	return path_follow_3d

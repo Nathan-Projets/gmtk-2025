@@ -34,15 +34,11 @@ func get_stat(id: Stats) -> Variant:
 
 func change_track(track: Path3D) -> void:
 	current_track = track
-	var path_local_space = global_position - current_track.global_position
+	
+	var path_local_space = current_track.to_local(global_position)
 	var closest_offset = current_track.curve.get_closest_offset(path_local_space)
 	
-	# for now there is only a PathFollow3D in the current_track,
-	# so no need to search for it but careful in the future
-	for child in current_track.get_children():
-		if child is PathFollow3D:
-			track_follow = child
-			break
+	track_follow = (current_track as Track).get_path_follow()
 	track_follow.progress = closest_offset
 	global_transform = track_follow.global_transform
 
@@ -50,6 +46,9 @@ func _on_area_3d_area_entered(area: Area3D) -> void:
 	if area is not Switch:
 		return
 	var switch: Switch = area
+	if switch.turnout == current_track:
+		# already on the same track it wants me to change so no need to do anything
+		return
 	var stat = get_stat(switch.get_source())
 	if stat != null and switch.evaluate(stat):
 		change_track(switch.turnout)

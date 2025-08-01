@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cr8qotc4rn50p"]
+[gd_scene load_steps=13 format=3 uid="uid://cr8qotc4rn50p"]
 
 [ext_resource type="PackedScene" uid="uid://ijowhrbicyp" path="res://scenes/map.tscn" id="1_wdj6m"]
 [ext_resource type="PackedScene" uid="uid://chwmmha3vnd68" path="res://scenes/track.tscn" id="2_wdj6m"]
+[ext_resource type="PackedScene" uid="uid://dk5j88gdto58j" path="res://scenes/switch.tscn" id="3_ifaiv"]
 [ext_resource type="PackedScene" uid="uid://dvu5qvc2navpw" path="res://scenes/train.tscn" id="3_l8qe7"]
 [ext_resource type="Script" uid="uid://b77s3yobngmtj" path="res://levels/camera.gd" id="5_ifaiv"]
 
@@ -32,6 +33,13 @@ _data = {
 }
 point_count = 21
 
+[sub_resource type="Curve3D" id="Curve3D_ifaiv"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.836792, 0, 0.366875, 0, 0, 0, 0, 0, 0, -74.1539, -0.565872, -15.59, 0, 0, 0, 0, 0, 0, -130.203, -4.88086, -64.9719, 0, 0, 0, 0, 0, 0, -178.752, -5.63206, -152.414, 0, 0, 0, 0, 0, 0, -247.953, -3.99451, -164.389, 0, 0, 0, 0, 0, 0, -317.198, -3.28494, -130.406, 0, 0, 0, 0, 0, 0, -387.271, -4.13347, -130.394, 0, 0, 0, 0, 0, 0, -419.487, 1.42287, -203.494, 0, 0, 0, 0, 0, 0, -516.029, -1.03311, -244.252, 0, 0, 0, 0, 0, 0, -592.784, -2.98226, -187.862, 0, 0, 0, 0, 0, 0, -626.27, 0.449669, -86.7796, 0, 0, 0, 0, 0, 0, -594.473, -5.25935, 34.8035, 0, 0, 0, 0, 0, 0, -574.851, -2.9828, 108.301, 0, 0, 0, 0, 0, 0, -573.336, -6.01043, 182.822, 0, 0, 0, 0, 0, 0, -485.27, -5.55002, 249.104, 0, 0, 0, 0, 0, 0, -373.274, -6.32553, 255.894, 0, 0, 0, 0, 0, 0, -284.685, -3.61366, 249.442, 0, 0, 0, 0, 0, 0, -155.459, -0.223572, 310.045),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 18
+
 [node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -55,13 +63,13 @@ metadata/_edit_lock_ = true
 transform = Transform3D(-0.0861299, 0, -0.996284, 0, 1, 0, 0.996284, 0, -0.0861299, -623.433, 75.8294, 633.102)
 curve = SubResource("Curve3D_m1504")
 
+[node name="Track2" parent="tracks" instance=ExtResource("2_wdj6m")]
+transform = Transform3D(-0.0861299, 0, -0.996284, 0, 1, 0, 0.996284, 0, -0.0861299, -165.073, 79.17, 474.458)
+curve = SubResource("Curve3D_ifaiv")
+
 [node name="Train" parent="." node_paths=PackedStringArray("current_track") instance=ExtResource("3_l8qe7")]
 transform = Transform3D(0.998306, 0, 0.0581739, 0, 1, 0, -0.0581739, 0, 0.998306, -620.08, 77.9914, 573.135)
-current_track = NodePath("../tracks/Track")
-stats = {
-"SPEED": 100.0,
-"TORQUE": 10.0
-}
+current_track = NodePath("../tracks/Track2")
 
 [node name="Anchor" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -394.57, -3.05176e-05, 509.721)
@@ -72,3 +80,16 @@ transform = Transform3D(0.954589, -0.210665, 0.210665, 0, 0.707107, 0.707107, -0
 projection = 1
 current = true
 size = 352.435
+
+[node name="Switch" parent="." node_paths=PackedStringArray("turnout") instance=ExtResource("3_ifaiv")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -165.436, 79.17, 475.745)
+monitoring = false
+comparator = 3
+turnout = NodePath("../tracks/Track2")
+no_comparison = true
+
+[node name="Switch2" parent="." node_paths=PackedStringArray("turnout") instance=ExtResource("3_ifaiv")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -459.758, 79.2481, 290.762)
+monitoring = false
+turnout = NodePath("../tracks/Track")
+no_comparison = true
