@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwuy72ggn65ni"]
+
+[ext_resource type="PackedScene" uid="uid://dp7ggr1yet228" path="res://assets/models/placeholder/stone_tall.fbx" id="1_fmxjr"]
+
+[node name="stone_tall" instance=ExtResource("1_fmxjr")]
+
+[node name="stone_tallJ" parent="." index="0"]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, -0.05, 0)

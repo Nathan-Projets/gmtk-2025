@@ -1,7 +1,11 @@
 class_name Train extends Node3D
 
+@export var speed_boost: float = 3.0
+@export var speed_boost_cost: float = 25.0
+@export var cooling_factor: float = 1.5
+@export var overheat_speed_factor: float = 2.0
+@export var temperature_max: int = 100
 @export var current_track: Path3D = null
-var track_follow: PathFollow3D = null
 
 @onready var last_delivery_time: int = Time.get_ticks_msec()
 @onready var cargo_integrity: float = 100.0
@@ -10,6 +14,14 @@ var track_follow: PathFollow3D = null
 @onready var time_score = 1.0
 @onready var decision_score = 1.0
 @onready var condition_score = 1.0
+
+@onready var train_locomotive_b: Node3D = $"Visuals/train-locomotive-b"
+
+var temperature: float = 0
+var speed_boost_value: float = 1.0
+var anim_player: AnimationPlayer
+var track_follow: PathFollow3D = null
+var mouse_over: bool = false
 
 enum Stats {
 	SPEED, 
@@ -26,6 +38,9 @@ enum Stats {
 func _ready() -> void:
 	randomize()
 	
+	anim_player = train_locomotive_b.get_child(1)
+	anim_player.play("running")
+	
 	for child in current_track.get_children():
 		if child is PathFollow3D:
 			track_follow = child
@@ -33,14 +48,35 @@ func _ready() -> void:
 	global_transform = track_follow.global_transform
 
 func _process(delta: float) -> void:
+	if speed_boost_value >= 1.05:
+		speed_boost_value = lerpf(speed_boost_value, 1.0, delta)
+		if speed_boost_value < 1.05:
+			speed_boost_value = 1.0
+	
+	if temperature > 0.0:
+		temperature -= cooling_factor * delta
+		if temperature < 0.0:
+			temperature = 0.0
+
 	if track_follow != null:
 		var key_string = Stats.keys()[Stats.SPEED]
-		track_follow.progress += stats[key_string] * delta
+		var speed = stats[key_string] * speed_boost_value
+		if is_over_heat():
+			speed /= overheat_speed_factor
+		track_follow.progress += speed * delta
 		global_transform = track_follow.global_transform
 
 func get_stat(id: Stats) -> Variant:
 	var key_string = Stats.keys()[id]
 	return stats.get(key_string)
+
+func is_over_heat():
+	return temperature > temperature_max
+
+func apply_boost():
+	if temperature < temperature_max:
+		speed_boost_value = speed_boost
+		temperature += speed_boost_cost
 
 func change_track(track: Path3D) -> void:
 	current_track = track

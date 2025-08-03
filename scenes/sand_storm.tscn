@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbhlxkeklsovh"]
+
+[ext_resource type="Script" uid="uid://18krbbacq2sc" path="res://scenes/sand_storm.gd" id="1_jhrwx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_etqu2"]
+size = Vector3(233.118, 53.9033, 88.3977)
+
+[node name="SandStorm" type="Node3D"]
+transform = Transform3D(0.925897, 0, 0.377776, 0, 1, 0, -0.377776, 0, 0.925897, 0, 0, 0)
+script = ExtResource("1_jhrwx")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.8064, 22.9859, 30.0977)
+shape = SubResource("BoxShape3D_etqu2")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

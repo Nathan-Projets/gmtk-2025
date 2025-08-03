@@ -28,17 +28,29 @@ func _input(event: InputEvent) -> void:
 			var zoom_size = camera_3d.size + speed_zoom * direction_zoom
 			camera_3d.size = clampf(zoom_size, min_zoom, max_zoom)
 		else: 
-			dragging = event.is_pressed()
+			dragging = event.is_pressed() and event.button_index == MOUSE_BUTTON_MIDDLE
 			turning = event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT
-	elif event is InputEventMouseMotion and dragging:
-		if not turning:
+			if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+				check_presence_object(event)
+	elif event is InputEventMouseMotion:
+		if dragging:
 			var zoom_scale = camera_3d.size / max_zoom  # or base it on a reference size
 			var adjusted_speed = dragging_speed * zoom_scale
-			global_position += right_vector * -event.relative.x * adjusted_speed 
+			global_position += right_vector * -event.relative.x * adjusted_speed
 			global_position += forward_vector * -event.relative.y * adjusted_speed / screen_ratio
-		else:
+		if turning:
 			rotate_y(-event.relative.x * 0.5 * turning_speed)
 			get_move_vectors()
+
+func check_presence_object(event):
+	var click_pos = event.position
+	var from = camera_3d.project_ray_origin(click_pos)
+	var to = from + camera_3d.project_ray_normal(click_pos) * 5000.0
+	var params: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(from, to)
+	var result = get_world_3d().direct_space_state.intersect_ray(params)
+	if result and result.collider is Train:
+		var train: Train = result.collider
+		train.apply_boost()
 
 func get_move_vectors():
 	# Get right and forward vectors from the camera's basis

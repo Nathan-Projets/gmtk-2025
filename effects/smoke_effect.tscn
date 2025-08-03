@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://b6y36108avlp8"]
+
+[ext_resource type="Script" uid="uid://clllecsxgem3" path="res://effects/smoke_effect.gd" id="1_7j3g0"]
+
+[sub_resource type="Curve" id="Curve_vtjrw"]
+_data = [Vector2(0, 0.011236), 0.0, 0.0, 0, 0, Vector2(0.294737, 1), 0.0, 0.0, 0, 0, Vector2(0.573684, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_7j3g0"]
+curve = SubResource("Curve_vtjrw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gfjph"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, -1, 0)
+spread = 90.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, 4, 0)
+scale_min = 2.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_7j3g0")
+color = Color(0.868985, 0.868985, 0.868985, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mhbma"]
+transparency = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_h0nju"]
+material = SubResource("StandardMaterial3D_mhbma")
+radial_segments = 8
+rings = 4
+
+[node name="SmokeEffect" type="Node3D"]
+script = ExtResource("1_7j3g0")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 12
+lifetime = 1.2
+explosiveness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_gfjph")
+draw_pass_1 = SubResource("SphereMesh_h0nju")

@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://bli1t1grtbf2g"]
+
+[ext_resource type="Script" uid="uid://cyljh4fjml2rm" path="res://scenes/rocks.gd" id="1_njeqb"]
+[ext_resource type="PackedScene" uid="uid://bwuy72ggn65ni" path="res://scenes/stone_tall.tscn" id="2_njeqb"]
+[ext_resource type="PackedScene" uid="uid://du0rhv7nxmuvn" path="res://scenes/rock.tscn" id="2_nttft"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_njeqb"]
+size = Vector3(25, 25, 25)
+
+[node name="Rocks" type="Node3D"]
+script = ExtResource("1_njeqb")
+
+[node name="Rock" parent="." instance=ExtResource("2_nttft")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.973816, -2.30402, -8.0007)
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+freeze = true
+use_particles = false
+
+[node name="Rock2" parent="." instance=ExtResource("2_nttft")]
+transform = Transform3D(-0.934569, -0.206036, 0.290051, -0.233077, 0.970505, -0.0616023, -0.268804, -0.125176, -0.955026, -4.90567, -2.14223, -7.94119)
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+freeze = true
+use_particles = false
+
+[node name="Rock3" parent="." instance=ExtResource("2_nttft")]
+transform = Transform3D(-0.714106, 0, 0.700037, 0, 1, 0, -0.700037, 0, -0.714106, -1.81427, -0.74675, -6.37695)
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+freeze = true
+use_particles = false
+
+[node name="stone_tall" parent="." instance=ExtResource("2_njeqb")]
+transform = Transform3D(-0.730532, 0, -0.682878, 0, 1, 0, 0.682878, 0, -0.730532, -1.7085, -3.00337, -1.73047)
+
+[node name="SpawningRocks" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.56772, -1.14817, -7.82921)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_njeqb")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="property_list_changed" from="Area3D" to="." method="_on_area_3d_property_list_changed"]

@@ -10,6 +10,11 @@ class_name Track extends Path3D
 
 var is_dirty = false
 
+func _ready() -> void:
+	var mm_instance = $MultiMeshInstance3D
+	mm_instance.multimesh = mm_instance.multimesh.duplicate()
+	is_dirty = true
+
 func _process(_delta: float) -> void:
 	if is_dirty:
 		_update_multimesh()
@@ -19,7 +24,7 @@ func _update_multimesh():
 	var path_length: float = curve.get_baked_length()
 	var number_planks = floor(path_length / distance_between_planks)
 	
-	var multimesh: MultiMesh = $Plank.multimesh
+	var multimesh: MultiMesh = $MultiMeshInstance3D.multimesh
 	multimesh.instance_count = number_planks
 	var offset = distance_between_planks / 2.0
 	

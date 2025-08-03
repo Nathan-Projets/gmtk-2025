@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://cr8qotc4rn50p"]
+[gd_scene load_steps=17 format=3 uid="uid://cr8qotc4rn50p"]
 
 [ext_resource type="PackedScene" uid="uid://ijowhrbicyp" path="res://scenes/map.tscn" id="1_wdj6m"]
+[ext_resource type="PackedScene" uid="uid://8tr541tuocsp" path="res://scenes/cargo_ship.tscn" id="2_etqu2"]
 [ext_resource type="PackedScene" uid="uid://chwmmha3vnd68" path="res://scenes/track.tscn" id="2_wdj6m"]
 [ext_resource type="PackedScene" uid="uid://dk5j88gdto58j" path="res://scenes/switch.tscn" id="3_ifaiv"]
 [ext_resource type="PackedScene" uid="uid://dvu5qvc2navpw" path="res://scenes/train.tscn" id="3_l8qe7"]
@@ -8,24 +9,19 @@
 [ext_resource type="PackedScene" uid="uid://dgvyta4yftf8q" path="res://scenes/delivery_spot.tscn" id="6_5k4jt"]
 [ext_resource type="Script" uid="uid://jdmj0a1setkt" path="res://levels/system.gd" id="7_qy63d"]
 [ext_resource type="PackedScene" uid="uid://c7n3k800t46i4" path="res://ui/main_screen.tscn" id="8_6et1j"]
-[ext_resource type="PackedScene" uid="uid://bli1t1grtbf2g" path="res://scenes/rocks.tscn" id="9_etqu2"]
-[ext_resource type="PackedScene" uid="uid://bbhlxkeklsovh" path="res://scenes/sand_storm.tscn" id="10_jw1n3"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_etqu2"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l8qe7"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
 ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-energy_multiplier = 0.55
 
-[sub_resource type="Sky" id="Sky_jw1n3"]
-sky_material = SubResource("ProceduralSkyMaterial_etqu2")
+[sub_resource type="Sky" id="Sky_m1504"]
+sky_material = SubResource("ProceduralSkyMaterial_l8qe7")
 
-[sub_resource type="Environment" id="Environment_xdh4e"]
+[sub_resource type="Environment" id="Environment_ifaiv"]
 background_mode = 2
-sky = SubResource("Sky_jw1n3")
+sky = SubResource("Sky_m1504")
 tonemap_mode = 2
 glow_enabled = true
-fog_light_color = Color(0.442961, 0.396301, 0.291055, 1)
-fog_density = 0.003
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wdj6m"]
 albedo_color = Color(0.333835, 0.725294, 0.906747, 1)
@@ -50,16 +46,6 @@ point_count = 18
 
 [node name="Main" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_xdh4e")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
-light_color = Color(0.999999, 0.865723, 0.830335, 1)
-light_energy = 0.6
-shadow_enabled = true
-directional_shadow_blend_splits = true
-
 [node name="AnchorCamera" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -394.57, -3.05176e-05, 509.721)
 script = ExtResource("5_ifaiv")
@@ -69,6 +55,15 @@ transform = Transform3D(0.954589, -0.210665, 0.210665, 0, 0.707107, 0.707107, -0
 projection = 1
 current = true
 size = 352.435
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ifaiv")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_color = Color(1, 0.896657, 0.858256, 1)
+shadow_enabled = true
+directional_shadow_max_distance = 360.0
 
 [node name="map" parent="." instance=ExtResource("1_wdj6m")]
 transform = Transform3D(0.00397939, 0, -0.999992, 0, 1, 0, 0.999992, 0, 0.00397939, 979.097, 14.2106, -239.925)
@@ -121,18 +116,11 @@ curve = SubResource("Curve3D_m1504")
 transform = Transform3D(-0.0861299, 0, -0.996284, 0, 1, 0, 0.996284, 0, -0.0861299, -165.073, 79.17, 474.458)
 curve = SubResource("Curve3D_ifaiv")
 
-[node name="Rocks" parent="." node_paths=PackedStringArray("destination_falling_rocks") instance=ExtResource("9_etqu2")]
-transform = Transform3D(0.83454, 0, 0.550947, 0, 1, 0, -0.550947, 0, 0.83454, -474.793, 96.7946, 428.227)
-visible = false
-destination_falling_rocks = NodePath("Marker3D")
-
-[node name="Marker3D" type="Marker3D" parent="Rocks"]
-transform = Transform3D(0.989533, 0, -0.144304, 0, 1, 0, 0.144304, 0, 0.989533, -17.324, -20.342, -37.0785)
+[node name="TrackingAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -620.08, 77.9914, 573.135)
 
 [node name="Train" parent="." node_paths=PackedStringArray("current_track") instance=ExtResource("3_l8qe7")]
 transform = Transform3D(0.998306, 0, 0.0581739, 0, 1, 0, -0.0581739, 0, 0.998306, -620.08, 77.9914, 573.135)
-collision_mask = 3
-cooling_factor = 4.0
 current_track = NodePath("../tracks/Track")
 stats = {
 "DEFENCE": 100.0,
@@ -140,18 +128,19 @@ stats = {
 "WEIGHT": 1000.0
 }
 
+[node name="CargoShip" parent="." node_paths=PackedStringArray("tracking_node") instance=ExtResource("2_etqu2")]
+transform = Transform3D(0.999398, 0, 0.0347075, 0, 1, 0, -0.0347075, 0, 0.999398, -617.65, 77.4154, 611.696)
+tracking_node = NodePath("../Train")
+acceleration = 100.0
+max_speed = 65.0
+stop_distance = 0.5
+initial_force = Vector3(0, 0, -60)
+
 [node name="System" type="Node" parent="."]
 script = ExtResource("7_qy63d")
 
 [node name="MainScreen" parent="." node_paths=PackedStringArray("system") instance=ExtResource("8_6et1j")]
 system = NodePath("../System")
 
-[node name="SandStorm" parent="." instance=ExtResource("10_jw1n3")]
-transform = Transform3D(0.925897, 0, 0.377776, 0, 1, 0, -0.377776, 0, 0.925897, -488.768, 77.2346, 396.517)
-
-[node name="CollisionShape3D" parent="SandStorm/Area3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.8064, 22.9859, 26.1862)
-
 [editable path="deliveries/DeliverySpot"]
 [editable path="deliveries/DeliverySpot2"]
-[editable path="SandStorm"]
