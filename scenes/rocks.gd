@@ -3,10 +3,13 @@ extends Node3D
 
 var stone = preload("res://scenes/rock.tscn")
 
+@export_range(0.0, 1.0, 0.05) var probability: float = 0.3
+@export var defense_needed: float = 40.0
 @export var destination_falling_rocks: Marker3D
 
 @onready var spawning_rocks: Marker3D = $SpawningRocks
 @onready var area_3d: Area3D = $Area3D
+@onready var audio_stream_player_3d: AudioStreamPlayer3D = $Area3D/AudioStreamPlayer3D
 
 func _ready() -> void:
 	update_area_position()
@@ -42,11 +45,17 @@ func update_area_position():
 	if destination_falling_rocks:
 		area_3d.transform = destination_falling_rocks.transform
 
+func should_event_fire() -> bool:
+	return randf() < probability
+
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body is Train:
-		var train: Train = body
-		var total_rocks = randi_range(3, 5)
-		spawn_rocks_in_bursts(total_rocks)
+		if should_event_fire():
+			var train: Train = body
+			train.apply_damage(defense_needed, 0.1) # 10% less cargo integrity
+			var total_rocks = randi_range(3, 5)
+			audio_stream_player_3d.playing = true
+			spawn_rocks_in_bursts(total_rocks)
 
 func spawn_rocks_in_bursts(total_rocks: int) -> void:
 	var rocks_spawned = 0

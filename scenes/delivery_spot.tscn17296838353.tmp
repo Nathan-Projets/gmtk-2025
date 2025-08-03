@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgvyta4yftf8q"]
+
+[ext_resource type="Script" uid="uid://bkbojyjhtavqd" path="res://scenes/delivery_spot.gd" id="1_c5q55"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_he0am"]
+size = Vector3(100, 6, 100)
+
+[node name="DeliverySpot" type="Node3D" groups=["DeliverySpots"]]
+script = ExtResource("1_c5q55")
+reward = null
+time_target_ms = null
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.786, 0, -0.674)
+shape = SubResource("BoxShape3D_he0am")
+debug_color = Color(0, 0.6, 0.701961, 1)
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

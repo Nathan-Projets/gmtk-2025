@@ -1,4 +1,4 @@
-extends Node3D
+class_name AnchorCamera extends Node3D
 
 @onready var camera_3d: Camera3D = $Camera3D
 
@@ -12,6 +12,7 @@ var forward_vector: Vector3 = Vector3.ZERO
 var speed_zoom: float = 10.5
 var min_zoom: float = 109.735
 var max_zoom: float = 466.735
+var current_zoom: float = 0.0
 
 func _ready() -> void:
 	var screen_size = get_viewport().get_visible_rect().size
@@ -25,8 +26,8 @@ func _input(event: InputEvent) -> void:
 				return
 			
 			var direction_zoom = (-1.0 if event.button_index == MOUSE_BUTTON_WHEEL_UP else 1.0)
-			var zoom_size = camera_3d.size + speed_zoom * direction_zoom
-			camera_3d.size = clampf(zoom_size, min_zoom, max_zoom)
+			current_zoom = camera_3d.size + speed_zoom * direction_zoom
+			camera_3d.size = clampf(current_zoom, min_zoom, max_zoom)
 		else: 
 			dragging = event.is_pressed() and event.button_index == MOUSE_BUTTON_MIDDLE
 			turning = event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT
@@ -48,9 +49,13 @@ func check_presence_object(event):
 	var to = from + camera_3d.project_ray_normal(click_pos) * 5000.0
 	var params: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(from, to)
 	var result = get_world_3d().direct_space_state.intersect_ray(params)
-	if result and result.collider is Train:
-		var train: Train = result.collider
-		train.apply_boost()
+	if result:
+		if result.collider is Train:
+			var train: Train = result.collider
+			train.apply_boost()
+		elif result.collider is BillboardNode:
+			var switch_billboard: BillboardNode = result.collider
+			switch_billboard.handle_click()
 
 func get_move_vectors():
 	# Get right and forward vectors from the camera's basis
@@ -64,3 +69,7 @@ func get_move_vectors():
 	# Normalize to prevent speed issues
 	right_vector = right_vector.normalized()
 	forward_vector = forward_vector.normalized()
+
+func close_enough(percentage):
+	var normalized = (current_zoom - min_zoom) / (max_zoom - min_zoom)
+	return abs(normalized - 1.0) >= percentage

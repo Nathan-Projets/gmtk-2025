@@ -1,22 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvu5qvc2navpw"]
+[gd_scene load_steps=6 format=3 uid="uid://dvu5qvc2navpw"]
 
 [ext_resource type="Script" uid="uid://b52rpa0c4mg4u" path="res://scenes/train.gd" id="1_68jl8"]
-[ext_resource type="PackedScene" uid="uid://l024m6aa4fuv" path="res://scenes/train_locomotive_b.tscn" id="2_d43s7"]
+[ext_resource type="AudioStream" uid="uid://c8wclerwddcw" path="res://assets/sounds/Train/Train/sfxTrain.wav" id="3_6b7q7"]
+[ext_resource type="PackedScene" uid="uid://b63bq5yrdpjmx" path="res://scenes/landship.tscn" id="3_o1hdh"]
+[ext_resource type="AudioStream" uid="uid://bhgst3scxn013" path="res://assets/sounds/Train/Train/overheat/sfxOverHeat.wav" id="4_muh0j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f48oq"]
-size = Vector3(4.5, 8.5, 12)
+size = Vector3(6.07022, 8.5, 25.7018)
 
 [node name="Train" type="RigidBody3D"]
 script = ExtResource("1_68jl8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.218658, 4, 0.630493)
 shape = SubResource("BoxShape3D_f48oq")
 
 [node name="Visuals" type="Node3D" parent="."]
 
-[node name="train-locomotive-b" parent="Visuals" instance=ExtResource("2_d43s7")]
-transform = Transform3D(-5, 0, 4.37114e-07, 0, 5, 0, -4.37114e-07, 0, -5, 0, 0, 0)
+[node name="landship" parent="Visuals" instance=ExtResource("3_o1hdh")]
+transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, 0, 3.07368, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, 0)
@@ -24,6 +26,15 @@ visible = false
 collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.318283, 0, 0.663269)
 shape = SubResource("BoxShape3D_f48oq")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6b7q7")
+volume_db = -15.0
+
+[node name="OverHeatPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_muh0j")
+volume_db = -5.0
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

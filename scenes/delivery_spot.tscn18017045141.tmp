@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgvyta4yftf8q"]
+
+[ext_resource type="Script" uid="uid://bkbojyjhtavqd" path="res://scenes/delivery_spot.gd" id="1_c5q55"]
+[ext_resource type="AudioStream" uid="uid://dkqkc26uo12pr" path="res://assets/sounds/Environment/sfxCity.wav" id="2_p8av5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_he0am"]
+size = Vector3(100, 6, 100)
+
+[node name="DeliverySpot" type="Node3D" groups=["DeliverySpots"]]
+script = ExtResource("1_c5q55")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.786, 0, -0.674)
+shape = SubResource("BoxShape3D_he0am")
+debug_color = Color(0, 0.6, 0.701961, 1)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_p8av5")
+volume_db = 13.617
+max_distance = 4096.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_p8av5")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

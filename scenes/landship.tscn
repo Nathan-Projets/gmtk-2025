@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b63bq5yrdpjmx"]
+
+[ext_resource type="PackedScene" uid="uid://d1oun8j3e50bk" path="res://assets/models/landship.fbx" id="1_a4g3c"]
+
+[node name="landship" instance=ExtResource("1_a4g3c")]
+transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, 0, 0, 0)
+
+[node name="greeblekit_795" parent="." index="0"]
+transform = Transform3D(-3881.35, -1.14112e-10, 0.00151145, 0, 3881.35, 0.000293034, -0.00151145, 0.000293034, -3881.35, 0, 0, 0)

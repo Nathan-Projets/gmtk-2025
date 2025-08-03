@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c5ov4iucfhwlq" path="res://scenes/switch.gd" id="1_1i7pn"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kxpdx"]
-radius = 1.0
+radius = 5.0
 
 [node name="Switch" type="Area3D"]
 script = ExtResource("1_1i7pn")
@@ -11,3 +11,4 @@ comparator = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_kxpdx")
+debug_color = Color(0, 0.6, 0.701961, 1)

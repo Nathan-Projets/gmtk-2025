@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bclkv57gabdet"]
+
+[ext_resource type="Script" uid="uid://crayhf58u4qmx" path="res://scenes/billboard_node.gd" id="1_rhlq3"]
+[ext_resource type="Texture2D" uid="uid://c8avxif86soep" path="res://assets/textures/background-switch.png" id="2_ra7gx"]
+[ext_resource type="AudioStream" uid="uid://brj80os2luhtp" path="res://assets/sounds/Environment/sfxTrainTramSwitch.wav" id="3_rhlq3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rhlq3"]
+size = Vector3(4, 4, 4)
+
+[node name="BillboardNode" type="StaticBody3D"]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_rhlq3")
+angle_rotation_degrees = 90.0
+
+[node name="Background" type="Sprite3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+texture = ExtResource("2_ra7gx")
+
+[node name="Foreground" type="Sprite3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0.0752626, 0)
+render_priority = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_rhlq3")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_rhlq3")
+volume_db = 15.0
+max_distance = 4096.0

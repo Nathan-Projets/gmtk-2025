@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bli1t1grtbf2g"]
+[gd_scene load_steps=6 format=3 uid="uid://bli1t1grtbf2g"]
 
 [ext_resource type="Script" uid="uid://cyljh4fjml2rm" path="res://scenes/rocks.gd" id="1_njeqb"]
 [ext_resource type="PackedScene" uid="uid://bwuy72ggn65ni" path="res://scenes/stone_tall.tscn" id="2_njeqb"]
 [ext_resource type="PackedScene" uid="uid://du0rhv7nxmuvn" path="res://scenes/rock.tscn" id="2_nttft"]
+[ext_resource type="AudioStream" uid="uid://cbbspsoq1vcbe" path="res://assets/sounds/Environment/sfxRockFall.wav" id="4_nttft"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_njeqb"]
 size = Vector3(25, 25, 25)
@@ -50,6 +51,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.56772, -1.14817, -7.82921)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_njeqb")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Area3D"]
+stream = ExtResource("4_nttft")
+volume_db = 15.0
+max_distance = 4096.0
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="property_list_changed" from="Area3D" to="." method="_on_area_3d_property_list_changed"]

@@ -1,6 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7n3k800t46i4"]
+[gd_scene load_steps=7 format=3 uid="uid://c7n3k800t46i4"]
 
 [ext_resource type="Script" uid="uid://3l2ufucyk8qp" path="res://ui/main_screen.gd" id="1_08ejt"]
+[ext_resource type="Texture2D" uid="uid://gfohfshx730c" path="res://assets/textures/coin-icon.png" id="2_og05u"]
+[ext_resource type="Texture2D" uid="uid://c4737wmx2ev88" path="res://assets/textures/endurance-icon.png" id="3_fkp2a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_og05u"]
+bg_color = Color(0.87451, 0.74902, 0.235294, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.560784, 0.470588, 0.0941176, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="FontVariation" id="FontVariation_og05u"]
+variation_embolden = 0.96
+
+[sub_resource type="LabelSettings" id="LabelSettings_fkp2a"]
+font = SubResource("FontVariation_og05u")
+font_size = 20
+font_color = Color(0.560784, 0.470588, 0.0941176, 1)
 
 [node name="MainScreen" type="CanvasLayer"]
 script = ExtResource("1_08ejt")
@@ -13,10 +35,189 @@ anchor_right = 0.168
 anchor_bottom = 0.375
 offset_left = -0.344002
 offset_top = 0.152
-offset_right = 0.463989
-offset_bottom = -1.52588e-05
+offset_right = -97.536
+offset_bottom = -145.0
 size_flags_horizontal = 0
 
-[node name="MoneyLabel" type="Label" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-text = "money: 0"
+
+[node name="MoneyPanel" type="Panel" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 54)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_og05u")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/MoneyPanel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 19.0
+offset_top = -18.0
+offset_right = 125.0
+offset_bottom = 14.0
+grow_vertical = 2
+scale = Vector2(1.12734, 1.12734)
+theme_override_constants/separation = 15
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("2_og05u")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "1000"
+label_settings = SubResource("LabelSettings_fkp2a")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TemperaturePanel" type="Panel" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(150, 72.315)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_og05u")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/TemperaturePanel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 19.0
+offset_top = -18.0
+offset_right = 125.0
+offset_bottom = 14.0
+grow_vertical = 2
+scale = Vector2(1.12734, 1.12734)
+theme_override_constants/separation = 15
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2/TemperaturePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_fkp2a")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/TemperaturePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "100%"
+label_settings = SubResource("LabelSettings_fkp2a")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MoneyPanel" type="Panel" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(250, 54)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_og05u")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/MoneyPanel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 19.0
+offset_top = -18.0
+offset_right = 125.0
+offset_bottom = 14.0
+grow_vertical = 2
+scale = Vector2(1.12734, 1.12734)
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "SPEED"
+label_settings = SubResource("LabelSettings_fkp2a")
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer3/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "60"
+label_settings = SubResource("LabelSettings_fkp2a")
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_disabled_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_hover_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_outline_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_focus_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_pressed_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/normal = SubResource("StyleBoxFlat_og05u")
+text = "+"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MoneyPanel" type="Panel" parent="VBoxContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(250, 54)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_og05u")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer4/MoneyPanel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 19.0
+offset_top = -18.0
+offset_right = 125.0
+offset_bottom = 14.0
+grow_vertical = 2
+scale = Vector2(1.12734, 1.12734)
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "DEFENSE"
+label_settings = SubResource("LabelSettings_fkp2a")
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer4/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "50"
+label_settings = SubResource("LabelSettings_fkp2a")
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_disabled_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_hover_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_outline_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_focus_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_colors/font_pressed_color = Color(0.560784, 0.470588, 0.0941176, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxFlat_og05u")
+theme_override_styles/normal = SubResource("StyleBoxFlat_og05u")
+text = "+"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer3/Button" to="." method="_on_button_speed_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer4/Button" to="." method="_on_button_defense_pressed"]

@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="GMTK25"
-run/main_scene="uid://cr8qotc4rn50p"
+run/main_scene="uid://buxpc6xmopnkr"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Messenger="*res://Messenger.gd"
+AutoLoad="*res://auto_load.gd"
 
 [global_group]
 
